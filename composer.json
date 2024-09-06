@@ -1,0 +1,26 @@
+{
+  "name": "apple/client",
+  "autoload": {
+    "psr-4": {
+      "Apple\\Client\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "weijiajia",
+      "email": "shadowmatthew1025@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^8.2",
+    "saloonphp/saloon": "^3.10",
+    "symfony/dom-crawler": "^7.1",
+    "ext-simplexml": "*",
+    "symfony/css-selector": "^7.1",
+    "ext-dom": "*",
+    "ext-libxml": "*"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest"
+  }
+}
