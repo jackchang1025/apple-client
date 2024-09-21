@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the Your-Project-Name package.
+ *
+ * (c) Your Name <your-email@example.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Apple\Client\DataConstruct;
 
 readonly class Phone
@@ -9,7 +18,7 @@ readonly class Phone
     }
 
     /**
-     * 获取电话号码 ID
+     * 获取电话号码 ID.
      */
     public function getId(): ?int
     {
@@ -17,7 +26,7 @@ readonly class Phone
     }
 
     /**
-     * 获取带有区号的完整电话号码（部分隐藏）
+     * 获取带有区号的完整电话号码（部分隐藏）.
      */
     public function getNumberWithDialCode(): ?string
     {
@@ -25,7 +34,7 @@ readonly class Phone
     }
 
     /**
-     * 获取电话号码的推送模式（如 SMS）
+     * 获取电话号码的推送模式（如 SMS）.
      */
     public function getPushMode(): ?string
     {
@@ -41,7 +50,7 @@ readonly class Phone
     }
 
     /**
-     * 获取电话号码的最后两位数字
+     * 获取电话号码的最后两位数字.
      */
     public function getLastTwoDigits(): ?string
     {

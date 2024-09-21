@@ -1,0 +1,21 @@
+parameters:
+ #设置PHPStan的规则级别，范围从0（最宽松）到8（最严格）。
+ level: 8
+
+ #指定要分析的目录或文件
+ paths:
+    - src
+
+#指定要排除的目录或文件。
+ excludePaths:
+    - tests/data
+
+#忽略特定的错误消息。可以使用正则表达式
+ ignoreErrors:
+    - '#Access to an undefined property#'
+
+#检查是否缺少可迭代类型的值类型
+ checkMissingIterableValueType: true
+
+#将PHPDoc类型视为确定的
+ treatPhpDocTypesAsCertain: false

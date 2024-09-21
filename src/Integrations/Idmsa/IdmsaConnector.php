@@ -1,30 +1,33 @@
 <?php
 
+/**
+ * This file is part of the Your-Project-Name package.
+ *
+ * (c) Your Name <your-email@example.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Apple\Client\Integrations\Idmsa;
 
+use Apple\Client\Config\Config;
+use Apple\Client\Idmsa;
 use Apple\Client\Integrations\AppleConnector;
-use Psr\Log\LoggerInterface;
-use Psr\SimpleCache\CacheInterface;
 
 class IdmsaConnector extends AppleConnector
 {
-    public function __construct(protected CacheInterface $cache,protected LoggerInterface $logger,protected string $token)
+    use Idmsa;
+
+
+    public function getIdmsaConnector(): IdmsaConnector
     {
+        return $this;
     }
 
-    public function getLogger(): LoggerInterface
+    public function defaultPersistentHeaders():array
     {
-        return $this->logger;
-    }
-
-    public function getCache(): CacheInterface
-    {
-        return $this->cache;
-    }
-
-    public function getClientId(): string
-    {
-        return $this->token;
+        return ['X-Apple-ID-Session-Id', 'X-Apple-Auth-Attributes', 'scnt'];
     }
 
     public function resolveBaseUrl(): string
@@ -32,18 +35,17 @@ class IdmsaConnector extends AppleConnector
         return 'https://idmsa.apple.com';
     }
 
-    public function persistentHeaders(): array
-    {
-//        return [];
-        return ['X-Apple-ID-Session-Id','X-Apple-Auth-Attributes','scnt'];
-    }
-
     protected function defaultHeaders(): array
     {
+        /**
+         * @var Config $config
+         */
+        $config = $this->config();
+
         return [
-            'X-Apple-Widget-Key'          => $this->appleConfig()->getServiceKey(),
-            'X-Apple-OAuth-Redirect-URI'  => $this->appleConfig()->getApiUrl(),
-            'X-Apple-OAuth-Client-Id'     => $this->appleConfig()->getServiceKey(),
+            'X-Apple-Widget-Key'          => $config->getServiceKey(),
+            'X-Apple-OAuth-Redirect-URI'  => $config->getApiUrl(),
+            'X-Apple-OAuth-Client-Id'     => $config->getServiceKey(),
             'X-Apple-OAuth-Client-Type'   => 'firstPartyAuth',
             'x-requested-with'            => 'XMLHttpRequest',
             'X-Apple-OAuth-Response-Mode' => 'web_message',

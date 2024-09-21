@@ -18,9 +18,20 @@
     "ext-simplexml": "*",
     "symfony/css-selector": "^7.1",
     "ext-dom": "*",
-    "ext-libxml": "*"
+    "ext-libxml": "*",
+    "illuminate/collections": "^11.22",
+    "illuminate/support": "^11.23"
   },
   "require-dev": {
-    "roave/security-advisories": "dev-latest"
+    "roave/security-advisories": "dev-latest",
+    "phpstan/phpstan": "^1.12",
+    "friendsofphp/php-cs-fixer": "^3.64",
+    "pestphp/pest": "^3.0",
+    "mockery/mockery": "^1.6"
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
   }
 }
