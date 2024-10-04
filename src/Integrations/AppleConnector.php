@@ -1,10 +1,6 @@
 <?php
 
 /**
- * This file is part of the Your-Project-Name package.
- *
- * (c) Your Name <your-email@example.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -13,13 +9,14 @@ namespace Apple\Client\Integrations;
 
 use Apple\Client\AppleClient;
 use Apple\Client\Config\HasConfig;
+use Apple\Client\Cookies\CookieJarInterface;
 use Apple\Client\Cookies\HasCookie;
 use Apple\Client\Header\HasHeaderSynchronize;
 use Apple\Client\Header\HasPersistentHeaders;
+use Apple\Client\Helpers\Helpers;
 use Apple\Client\Logger\Logger;
 use Apple\Client\Proxy\HasProxy;
 use Apple\Client\Response\Response;
-use GuzzleHttp\Cookie\CookieJarInterface;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Str;
 use Psr\Http\Message\RequestInterface;
@@ -43,6 +40,7 @@ abstract class AppleConnector extends Connector
     use Logger;
     use HasProxy;
     use HasConfig;
+    use Helpers;
     use HasConfig {
         HasConfig::config as baseConfig;
     }
@@ -114,7 +112,7 @@ abstract class AppleConnector extends Connector
          */
         $connector = $pendingRequest->getConnector();
 
-        $config = $connector->getApple()->appleConfig();
+        $config = $connector->getApple()->config();
 
         $pendingRequest->config()->get(RequestOptions::PROXY);
 
@@ -139,7 +137,7 @@ abstract class AppleConnector extends Connector
          */
         $connector = $pendingRequest->getConnector();
 
-        $config = $connector->getApple()->appleConfig();
+        $config = $connector->getApple()->config();
 
         return function (ResponseInterface $response) use ($config) {
             $contentType = $response->getHeaderLine('Content-Type');

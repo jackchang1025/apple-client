@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Apple\Client\Response;
 
 use Apple\Client\DataConstruct\ServiceError;
@@ -10,8 +15,9 @@ trait HasServiceError
     /**
      * Get all service errors.
      *
-     * @return Collection
      * @throws \JsonException
+     *
+     * @return Collection<int,ServiceError>
      */
     public function getServiceErrors(): Collection
     {
@@ -26,8 +32,9 @@ trait HasServiceError
     /**
      * Get the first service error.
      *
-     * @return ServiceError|null
      * @throws \JsonException
+     *
+     * @return ServiceError|null
      */
     public function getFirstServiceError(): ?ServiceError
     {
@@ -37,8 +44,9 @@ trait HasServiceError
     /**
      * Get authentication service errors.
      *
-     * @return Collection
      * @throws \JsonException
+     *
+     * @return Collection<int,ServiceError>
      */
     public function getAuthServiceErrors(): Collection
     {
@@ -51,8 +59,9 @@ trait HasServiceError
     /**
      * Get the first authentication service error.
      *
-     * @return ServiceError|null
      * @throws \JsonException
+     *
+     * @return ServiceError|null
      */
     public function getFirstAuthServiceError(): ?ServiceError
     {

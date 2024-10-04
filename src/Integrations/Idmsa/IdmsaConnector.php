@@ -1,10 +1,6 @@
 <?php
 
 /**
- * This file is part of the Your-Project-Name package.
- *
- * (c) Your Name <your-email@example.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -19,13 +15,12 @@ class IdmsaConnector extends AppleConnector
 {
     use Idmsa;
 
-
     public function getIdmsaConnector(): IdmsaConnector
     {
         return $this;
     }
 
-    public function defaultPersistentHeaders():array
+    public function defaultPersistentHeaders(): array
     {
         return ['X-Apple-ID-Session-Id', 'X-Apple-Auth-Attributes', 'scnt'];
     }

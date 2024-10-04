@@ -1,7 +1,12 @@
 <?php
 
-use Apple\Client\AppleId;
+/**
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Apple\Client\AppleClient;
+use Apple\Client\AppleId;
 use Apple\Client\Config\Config;
 use Apple\Client\Exception\AccountLockoutException;
 use Apple\Client\Exception\PhoneException;
@@ -11,13 +16,12 @@ use Apple\Client\Integrations\AppleId\Request\AccountManage\SecurityVerifyPhoneS
 use Apple\Client\Integrations\AppleId\Request\AccountManage\Token;
 use Apple\Client\Integrations\AppleId\Request\AuthenticatePassword;
 use Apple\Client\Integrations\AppleId\Request\Bootstrap;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Saloon\Exceptions\Request\ClientException;
-use Saloon\Exceptions\Request\RequestException;
 use Saloon\Exceptions\Request\Statuses\InternalServerErrorException;
-use Saloon\Http\Response;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Saloon\Http\Response;
 
 // 使用 Mockery 的 PHPUnit 集成
 uses(MockeryPHPUnitIntegration::class);
@@ -60,7 +64,6 @@ beforeEach(function () {
 });
 
 it('successfully bootstraps Apple Id', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         Bootstrap::class => MockResponse::make(
@@ -79,7 +82,6 @@ it('successfully bootstraps Apple Id', function () {
 });
 
 it('throws exception when bootstrap fails', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         Bootstrap::class => MockResponse::make(
@@ -93,7 +95,6 @@ it('throws exception when bootstrap fails', function () {
 })->throws(ClientException::class, 'Bad Request (400) Response: {"error":"Invalid request"}');
 
 it('successfully authenticates password', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         AuthenticatePassword::class => MockResponse::make(),
@@ -109,7 +110,6 @@ it('successfully authenticates password', function () {
 });
 
 it('throws exception when authenticatePassword fails', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         AuthenticatePassword::class => MockResponse::make(
@@ -123,7 +123,6 @@ it('throws exception when authenticatePassword fails', function () {
 })->throws(ClientException::class, 'Unauthorized (401) Response: {"error":"Authentication failed"}');
 
 it('successfully retrieves token', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         Token::class => MockResponse::make(),
@@ -139,7 +138,6 @@ it('successfully retrieves token', function () {
 });
 
 it('throws exception when token retrieval fails', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         Token::class => MockResponse::make(
@@ -197,9 +195,7 @@ it('throws exception when securityVerifyPhone AccountLockoutException', function
 
     // 调用 securityVerifyPhone 方法，预期抛出异常
     $this->appleId->securityVerifyPhone('US', '1234567890', '+1', true);
-
 })->throws(AccountLockoutException::class, 'Unknown Status (467) Response: {"error":"AccountLockoutException"}');
-
 
 //it('throws exception when securityVerifyPhone PhoneException', function () {
 //    MockClient::global([
@@ -219,13 +215,11 @@ it('throws exception when securityVerifyPhone AccountLockoutException', function
 //
 //})->throws(PhoneException::class);
 
-
 it('AccountLockoutException verifies phone security code', function () {
     // 设置模拟响应为 429 太多请求
     MockClient::global([
         SecurityVerifyPhoneSecurityCode::class => MockResponse::make(),
     ]);
-
 
     // 调用 securityVerifyPhoneSecurityCode 方法
     $response = $this->appleId->securityVerifyPhoneSecurityCode(1, '1234567890', 'US', '+1', '987654');
@@ -233,7 +227,6 @@ it('AccountLockoutException verifies phone security code', function () {
     expect($response)->toBeInstanceOf(Response::class)
         ->and($response->failed())
         ->toBeFalse();
-
 });
 
 it('throws exception when securityVerifyPhoneSecurityCode fails', function () {
@@ -244,7 +237,6 @@ it('throws exception when securityVerifyPhoneSecurityCode fails', function () {
             status: 400
         ),
     ]);
-
 
     // 调用 securityVerifyPhoneSecurityCode 方法，预期抛出异常
     $this->appleId->securityVerifyPhoneSecurityCode(1, '1234567890', 'US', '+1', 'invalid_code');

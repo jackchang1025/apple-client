@@ -1,14 +1,19 @@
 <?php
 
+/**
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Apple\Client\AppleAuth;
 use Apple\Client\AppleClient;
 use Apple\Client\Config\Config;
 use Apple\Client\Integrations\AppleAuth\AppleAuthConnector;
-use Apple\Client\Integrations\AppleAuth\Request\Init;
 use Apple\Client\Integrations\AppleAuth\Request\Complete;
-use Saloon\Http\Response;
+use Apple\Client\Integrations\AppleAuth\Request\Init;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
+use Saloon\Http\Response;
 
 // 创建一个测试类来使用 AppleAuth trait
 class AppleAuthTest
@@ -29,11 +34,10 @@ class AppleAuthTest
 }
 
 beforeEach(function () {
-
     $this->config = new Config([
         'apple_auth' => [
-            'url' => 'https://auth.apple.com'
-        ]
+            'url' => 'https://auth.apple.com',
+        ],
     ]);
 
     $appleClient = new AppleClient($this->config);
@@ -46,7 +50,6 @@ beforeEach(function () {
 });
 
 it('successfully initializes Apple Auth', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         Init::class => MockResponse::make(
@@ -61,15 +64,14 @@ it('successfully initializes Apple Auth', function () {
     expect($response)->toBeInstanceOf(Response::class)
         ->and($response->json('key'))->toBe('test_key')
         ->and($response->json('value'))->toBe('test_value');
-    });
+});
 
 it('throws exception when key is empty in appleAuthInit', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         Init::class => MockResponse::make(
             body: [
-                'value' => 'test_value'
+                'value' => 'test_value',
             ]
         ),
     ]);
@@ -78,12 +80,11 @@ it('throws exception when key is empty in appleAuthInit', function () {
 })->throws(InvalidArgumentException::class, 'key IS EMPTY');
 
 it('throws exception when value is empty in appleAuthInit', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         Init::class => MockResponse::make(
             body: [
-                'key' => 'test_key'
+                'key' => 'test_key',
             ]
         ),
     ]);
@@ -92,18 +93,16 @@ it('throws exception when value is empty in appleAuthInit', function () {
 })->throws(InvalidArgumentException::class, 'value IS EMPTY');
 
 it('successfully completes Apple Auth', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         Complete::class => MockResponse::make(
             body: [
                 'M1' => 'test_m1',
                 'M2' => 'test_m2',
-                'c' => 'test_c'
+                'c' => 'test_c',
             ]
         ),
     ]);
-
 
     $response = $this->appleAuth->appleAuthComplete('key', 'salt', 'b', 'c', 'password', '1000', 'protocol');
 
@@ -114,13 +113,12 @@ it('successfully completes Apple Auth', function () {
 });
 
 it('throws exception when M1 is empty in appleAuthComplete', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         Complete::class => MockResponse::make(
             body: [
                 'M2' => 'test_m2',
-                'c' => 'test_c'
+                'c' => 'test_c',
             ]
         ),
     ]);
@@ -129,13 +127,12 @@ it('throws exception when M1 is empty in appleAuthComplete', function () {
 })->throws(InvalidArgumentException::class, 'M1 IS EMPTY');
 
 it('throws exception when M2 is empty in appleAuthComplete', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         Complete::class => MockResponse::make(
             body: [
                 'M1' => 'test_m1',
-                'c' => 'test_c'
+                'c' => 'test_c',
             ]
         ),
     ]);

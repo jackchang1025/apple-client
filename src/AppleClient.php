@@ -1,10 +1,6 @@
 <?php
 
 /**
- * This file is part of the Your-Project-Name package.
- *
- * (c) Your Name <your-email@example.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -12,6 +8,7 @@
 namespace Apple\Client;
 
 use Apple\Client\Config\HasConfig;
+use Apple\Client\Cookies\CookieJarInterface;
 use Apple\Client\Cookies\HasCookie;
 use Apple\Client\Header\HasHeaderSynchronize;
 use Apple\Client\Helpers\Helpers;
@@ -20,7 +17,6 @@ use Apple\Client\Integrations\AppleId\AppleIdConnector;
 use Apple\Client\Integrations\Idmsa\IdmsaConnector;
 use Apple\Client\Logger\Logger;
 use Apple\Client\Proxy\HasProxy;
-use GuzzleHttp\Cookie\CookieJarInterface;
 use Psr\Log\LoggerInterface;
 use Saloon\Contracts\ArrayStore as ArrayStoreContract;
 use Saloon\Traits\Macroable;
@@ -43,8 +39,8 @@ class AppleClient
     protected AppleAuthConnector $appleAuthConnector;
 
     /**
-     * @param ArrayStoreContract                  $config
-     * @param ArrayStoreContract|null         $headerRepositories
+     * @param ArrayStoreContract      $config
+     * @param ArrayStoreContract|null $headerRepositories
      * @param CookieJarInterface|null $cookieJar
      * @param LoggerInterface|null    $logger
      */
@@ -54,7 +50,6 @@ class AppleClient
         ?CookieJarInterface $cookieJar = null,
         ?LoggerInterface $logger = null,
     ) {
-
         $this->withConfig($config);
         $this->setLogger($logger);
         $this->setHeaderRepositories($headerRepositories);
@@ -84,11 +79,11 @@ class AppleClient
      * @param string $account
      * @param string $password
      *
-     * @return \Apple\Client\Response\Response
-     *@throws \Saloon\Exceptions\Request\FatalRequestException
+     * @throws \Saloon\Exceptions\Request\FatalRequestException
      * @throws \Saloon\Exceptions\Request\RequestException
-     *
      * @throws \JsonException
+     *
+     * @return Response\Response
      */
     public function authLogin(string $account, string $password): Response\Response
     {

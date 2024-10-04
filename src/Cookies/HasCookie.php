@@ -1,19 +1,14 @@
 <?php
 
 /**
- * This file is part of the Your-Project-Name package.
- *
- * (c) Your Name <your-email@example.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
 namespace Apple\Client\Cookies;
 
-use GuzzleHttp\Cookie\CookieJarInterface;
-use GuzzleHttp\RequestOptions;
 use Saloon\Http\PendingRequest;
+use Saloon\Http\Response;
 
 trait HasCookie
 {
@@ -21,15 +16,13 @@ trait HasCookie
 
     public function bootHasCookie(PendingRequest $pendingRequest): void
     {
-        if ($cookieJar = $this->getCookieJar()) {
+        $pendingRequest->getConnector()
+            ->middleware()
+            ->onRequest(fn (PendingRequest $request) => $this->getCookieJar()?->withCookieHeader($request));
 
-            $request = $pendingRequest->cookie();
-
-            $cookieJar->withCookieHeader($request);
-            
-            $pendingRequest->config()
-                ->add(RequestOptions::COOKIES, $this->getCookieJar());
-        }
+        $pendingRequest->getConnector()
+            ->middleware()
+            ->onResponse(fn (Response $response) => $this->getCookieJar()?->extractCookies($pendingRequest, $response));
     }
 
     public function setCookieJar(?CookieJarInterface $cookieJar): void

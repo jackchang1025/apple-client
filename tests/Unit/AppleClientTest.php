@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+/**
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Apple\Client\AppleClient;
 use Apple\Client\Config\Config;
 use Apple\Client\Cookies\Cookies;
@@ -15,23 +20,20 @@ use Saloon\Exceptions\Request\ClientException;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-
 beforeEach(function () {
     $this->config = new Config([
         'apple_auth' => [
-            'url' => 'https://auth.apple.com'
-        ]
+            'url' => 'https://auth.apple.com',
+        ],
     ]);
 });
 
 it('throws exception when initializing AppleClient without apple_auth config', function () {
-    expect(fn() => new AppleClient(new Config()))
+    expect(fn () => new AppleClient(new Config()))
         ->toThrow(InvalidArgumentException::class, 'apple_auth config is empty');
 });
 
-
 it('init AppleClient with config', function () {
-
     $client = new AppleClient($this->config);
 
     expect($client)->toBeInstanceOf(AppleClient::class)
@@ -46,7 +48,6 @@ it('init AppleClient with config', function () {
 });
 
 it('init AppleClient', function () {
-
     $cookieStore = Mockery::mock(Cookies::class);
     $headerStore = Mockery::mock(CacheStore::class);
     $logger = Mockery::mock(LoggerInterface::class);
@@ -60,7 +61,6 @@ it('init AppleClient', function () {
 
     $proxy = 'http://127.0.0.1:8080';
     $client->withProxy($proxy);
-
 
     expect($client)->toBeInstanceOf(AppleClient::class)
         ->and($client->getAppleIdConnector())->toBeInstanceOf(AppleIdConnector::class)
@@ -91,22 +91,22 @@ it('可以执行 authLogin 流程', function () {
     MockClient::global()->addResponses([
         'https://auth.apple.com/init' => MockResponse::make([
             'key' => 'test_key',
-            'value' => 'test_value'
+            'value' => 'test_value',
         ], 200),
         'https://idmsa.apple.com/appleauth/auth/signin/init' => MockResponse::make([
             'salt' => 'test_salt',
             'b' => 'test_b',
             'c' => 'test_c',
             'iteration' => 1000,
-            'protocol' => 'test_protocol'
+            'protocol' => 'test_protocol',
         ], 200),
         'https://auth.apple.com/complete' => MockResponse::make([
             'M1' => 'test_m1',
             'M2' => 'test_m2',
-            'c' => 'test_c'
+            'c' => 'test_c',
         ], 200),
         'https://idmsa.apple.com/appleauth/auth/signin/complete?isRememberMeEnabled=true' => MockResponse::make([
-            'success' => true
+            'success' => true,
         ], 409),
     ]);
 
@@ -118,17 +118,15 @@ it('可以执行 authLogin 流程', function () {
         ->and($response->json('success'))->toBeTrue();
 });
 
-
 it('在 appleAuthInit 失败时抛出异常', function () {
-
     MockClient::global()->addResponses([
         'https://auth.apple.com/init' => MockResponse::make([
-            'error' => 'Invalid request'
+            'error' => 'Invalid request',
         ], 400),
     ]);
 
     $client = new AppleClient($this->config);
 
-    expect(fn() => $client->authLogin('test@example.com', 'password123'))
+    expect(fn () => $client->authLogin('test@example.com', 'password123'))
         ->toThrow(ClientException::class, 'Bad Request (400) Response: {"error":"Invalid request"}');
 });

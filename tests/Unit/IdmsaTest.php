@@ -1,28 +1,32 @@
 <?php
 
-use Apple\Client\Config\HasConfig;
-use Apple\Client\Helpers\Helpers;
-use Apple\Client\Idmsa;
+/**
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Apple\Client\AppleClient;
 use Apple\Client\Config\Config;
+use Apple\Client\Config\HasConfig;
 use Apple\Client\Exception\VerificationCodeException;
+use Apple\Client\Helpers\Helpers;
+use Apple\Client\Idmsa;
 use Apple\Client\Integrations\Idmsa\IdmsaConnector;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\SigninInit;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\AuthorizeComplete;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\Signin;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\AuthorizeSing;
 use Apple\Client\Integrations\Idmsa\Request\AppleAuth\Auth;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\VerifyTrustedDeviceSecurityCode;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\VerifyPhoneSecurityCode;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\SendTrustedDeviceSecurityCode;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\SendPhoneSecurityCode;
+use Apple\Client\Integrations\Idmsa\Request\AppleAuth\AuthorizeComplete;
+use Apple\Client\Integrations\Idmsa\Request\AppleAuth\AuthorizeSing;
 use Apple\Client\Integrations\Idmsa\Request\AppleAuth\AuthRepairComplete;
-use Saloon\Exceptions\Request\ClientException;
+use Apple\Client\Integrations\Idmsa\Request\AppleAuth\SendPhoneSecurityCode;
+use Apple\Client\Integrations\Idmsa\Request\AppleAuth\SendTrustedDeviceSecurityCode;
+use Apple\Client\Integrations\Idmsa\Request\AppleAuth\Signin;
+use Apple\Client\Integrations\Idmsa\Request\AppleAuth\SigninInit;
+use Apple\Client\Integrations\Idmsa\Request\AppleAuth\VerifyPhoneSecurityCode;
+use Apple\Client\Integrations\Idmsa\Request\AppleAuth\VerifyTrustedDeviceSecurityCode;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Saloon\Exceptions\Request\RequestException;
-use Saloon\Http\Response;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Saloon\Http\Response;
 
 uses(MockeryPHPUnitIntegration::class);
 uses()->group('idmsa');
@@ -59,7 +63,6 @@ beforeEach(function () {
 });
 
 it('successfully initializes signin', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         SigninInit::class => MockResponse::make(
@@ -68,7 +71,7 @@ it('successfully initializes signin', function () {
                 'b' => 'test_b',
                 'c' => 'test_c',
                 'iteration' => 1000,
-                'protocol' => 'test_protocol'
+                'protocol' => 'test_protocol',
             ]
         ),
     ]);
@@ -98,7 +101,6 @@ it('throws exception when init response is missing required fields', function ()
 })->throws(InvalidArgumentException::class);
 
 it('successfully completes authorization', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         AuthorizeComplete::class => MockResponse::make(status: 409),
@@ -111,18 +113,15 @@ it('successfully completes authorization', function () {
 });
 
 it('fails when completes authorization', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         AuthorizeComplete::class => MockResponse::make(),
     ]);
 
     $this->idmsa->complete('test@example.com', 'm1', 'm2', 'c', true);
-
 })->throws(RequestException::class);
 
 it('successfully signs in', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         Signin::class => MockResponse::make(),
@@ -135,7 +134,6 @@ it('successfully signs in', function () {
 });
 
 it('successfully authorizes sing', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         AuthorizeSing::class => MockResponse::make(status: 409),
@@ -148,18 +146,15 @@ it('successfully authorizes sing', function () {
 });
 
 it('fails when authorizes sing', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         AuthorizeSing::class => MockResponse::make(status: 200),
     ]);
 
     $this->idmsa->authorizeSing('test@example.com', 'password', true);
-
 })->throws(RequestException::class);
 
 it('successfully authenticates', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         Auth::class => MockResponse::make(),
@@ -172,7 +167,6 @@ it('successfully authenticates', function () {
 });
 
 it('successfully verifies security code', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         VerifyTrustedDeviceSecurityCode::class => MockResponse::make(),
@@ -185,13 +179,13 @@ it('successfully verifies security code', function () {
 });
 
 it('throws VerificationCodeException when security code verification fails', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         VerifyTrustedDeviceSecurityCode::class => MockResponse::make(
             body: [
-                'error' => 'Invalid code'
-            ],status: 400
+                'error' => 'Invalid code',
+            ],
+            status: 400
         ),
     ]);
 
@@ -199,12 +193,10 @@ it('throws VerificationCodeException when security code verification fails', fun
 })->throws(VerificationCodeException::class);
 
 it('successfully verifies phone code', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         VerifyPhoneSecurityCode::class => MockResponse::make([
-
-        ],status: 200),
+        ], status: 200),
     ]);
 
     $response = $this->idmsa->verifyPhoneCode('test_id', '123456');
@@ -214,19 +206,17 @@ it('successfully verifies phone code', function () {
 });
 
 it('throws VerificationCodeException when phone code verification fails', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         VerifyPhoneSecurityCode::class => MockResponse::make([
-            'error' => 'Invalid code'
-        ],status: 400),
+            'error' => 'Invalid code',
+        ], status: 400),
     ]);
 
     $this->idmsa->verifyPhoneCode('test_id', '123456');
 })->throws(VerificationCodeException::class);
 
 it('successfully sends security code', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         SendTrustedDeviceSecurityCode::class => MockResponse::make([
@@ -240,7 +230,6 @@ it('successfully sends security code', function () {
 });
 
 it('successfully sends phone security code', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         SendPhoneSecurityCode::class => MockResponse::make([
@@ -254,8 +243,6 @@ it('successfully sends phone security code', function () {
 });
 
 it('successfully manages privacy accept', function () {
-
-
     // 设置特定的模拟响应
     MockClient::global([
         AuthRepairComplete::class => MockResponse::make([

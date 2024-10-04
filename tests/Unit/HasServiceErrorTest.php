@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Apple\Client\DataConstruct\ServiceError;
 use Apple\Client\Response\HasServiceError;
 use Illuminate\Support\Collection;
@@ -19,8 +24,10 @@ class ResponseTest
     /**
      * @param $key
      * @param $default
-     * @return mixed|array
+     *
      * @throws JsonException
+     *
+     * @return mixed|array
      */
     public function json($key = null, $default = null): mixed
     {
@@ -37,7 +44,6 @@ beforeEach(function () {
     $this->mockResponse = Mockery::mock(Response::class);
     $this->testResponse = new ResponseTest($this->mockResponse);
 });
-
 
 it('gets service errors from service_errors key', function () {
     $errorData = [

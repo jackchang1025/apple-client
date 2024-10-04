@@ -1,10 +1,6 @@
 <?php
 
 /**
- * This file is part of the Your-Project-Name package.
- *
- * (c) Your Name <your-email@example.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -31,10 +27,10 @@ use Saloon\Exceptions\Request\RequestException;
 trait AppleId
 {
     /**
-     * @return Response
      * @throws RequestException
-     *
      * @throws FatalRequestException
+     *
+     * @return Response
      */
     public function bootstrap(): Response
     {
@@ -46,10 +42,10 @@ trait AppleId
     /**
      * @param string $password
      *
-     * @return Response
      * @throws RequestException
-     *
      * @throws FatalRequestException
+     *
+     * @return Response
      */
     public function authenticatePassword(string $password): Response
     {
@@ -58,10 +54,10 @@ trait AppleId
     }
 
     /**
-     * @return Response
      * @throws RequestException
-     *
      * @throws FatalRequestException
+     *
+     * @return Response
      */
     public function token(): Response
     {
@@ -72,9 +68,8 @@ trait AppleId
      * @param string $countryCode
      * @param string $phoneNumber
      * @param string $countryDialCode
-     * @param bool $nonFTEU
+     * @param bool   $nonFTEU
      *
-     * @return Response
      * @throws RequestException
      * @throws AccountLockoutException
      * @throws PhoneException
@@ -83,6 +78,7 @@ trait AppleId
      * @throws PhoneNumberAlreadyExistsException
      * @throws BindPhoneException|JsonException
      *
+     * @return Response
      */
     public function securityVerifyPhone(
         string $countryCode,
@@ -91,13 +87,9 @@ trait AppleId
         bool $nonFTEU = true
     ): Response {
         try {
-
             return $this->getAppleIdConnector()
                 ->send(new SecurityVerifyPhone($countryCode, $phoneNumber, $countryDialCode, $nonFTEU));
-
         } catch (FatalRequestException|RequestException $e) {
-
-
             /**
              * @var Response $response
              */
@@ -111,7 +103,7 @@ trait AppleId
                 throw  new AccountLockoutException(response: $response);
             }
 
-            $error = $response->getErrorsFirst();
+            $error = $response->getFirstServiceError();
 
             // 骏证码无法发送至该电话号码。请稍后重试
             if ($error?->getCode() === -28248) {
@@ -144,21 +136,19 @@ trait AppleId
                 response: $response
             );
         }
-
-
     }
 
     /**
-     * @param int $id
+     * @param int    $id
      * @param string $phoneNumber
      * @param string $countryCode
      * @param string $countryDialCode
      * @param string $code
      *
-     * @return Response
      * @throws RequestException
-     *
      * @throws FatalRequestException
+     *
+     * @return Response
      */
     public function securityVerifyPhoneSecurityCode(
         int $id,

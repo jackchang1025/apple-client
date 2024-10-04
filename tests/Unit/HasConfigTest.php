@@ -1,11 +1,14 @@
 <?php
 
+/**
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Tests\Unit;
 
 use Apple\Client\Config\Config;
 use Apple\Client\Config\HasConfig;
-use Saloon\Repositories\ArrayStore;
-use Pest\Expectation;
 
 class HasConfigTest
 {
@@ -75,7 +78,7 @@ it('handles nested config values', function () {
         'nested' => [
             'key1' => 'value1',
             'key2' => 'value2',
-        ]
+        ],
     ]);
 
     $config = $this->hasConfig->config();

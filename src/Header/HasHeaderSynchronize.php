@@ -1,10 +1,6 @@
 <?php
 
 /**
- * This file is part of the Your-Project-Name package.
- *
- * (c) Your Name <your-email@example.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -43,21 +39,20 @@ trait HasHeaderSynchronize
                 $request = $pendingRequest->getRequest();
 
                 if (method_exists($connector, 'getPersistentHeaders')) {
-                    $persistentHeaders = array_merge($persistentHeaders,$connector->getPersistentHeaders()->all());
+                    $persistentHeaders = array_merge($persistentHeaders, $connector->getPersistentHeaders()?->all());
                 }
 
                 if (method_exists($request, 'getPersistentHeaders')) {
-                    $persistentHeaders = array_merge($persistentHeaders,$request->getPersistentHeaders()->all());
+                    $persistentHeaders = array_merge($persistentHeaders, $request->getPersistentHeaders()?->all());
                 }
 
                 if (empty($persistentHeaders)) {
                     return $pendingRequest;
                 }
 
-                $storedHeaders = $this->getHeaderRepositories()->all();
+                $storedHeaders = $this->getHeaderRepositories()?->all();
 
                 foreach ($persistentHeaders as $key => $value) {
-
                     if (is_int($key)) {
                         $header = $value;
                         $defaultValue = null;
@@ -82,7 +77,7 @@ trait HasHeaderSynchronize
 
         $pendingRequest->middleware()
             ->onResponse(function (Response $response) {
-                $this->getHeaderRepositories()->merge($response->headers()->all());
+                $this->getHeaderRepositories()?->merge($response->headers()->all());
 
                 return $response;
             }, 'header_store_response', PipeOrder::LAST);

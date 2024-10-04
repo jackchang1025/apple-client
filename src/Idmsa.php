@@ -1,10 +1,6 @@
 <?php
 
 /**
- * This file is part of the Your-Project-Name package.
- *
- * (c) Your Name <your-email@example.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -35,11 +31,13 @@ trait Idmsa
     /**
      * @param string $a
      * @param string $account
-     * @return Response
+     *
      * @throws JsonException
      * @throws InvalidArgumentException
      * @throws FatalRequestException
      * @throws RequestException
+     *
+     * @return Response
      */
     public function init(string $a, string $account): Response
     {
@@ -75,12 +73,12 @@ trait Idmsa
      * @param string $m1
      * @param string $m2
      * @param string $c
-     * @param bool $rememberMe
+     * @param bool   $rememberMe
+     *
+     * @throws RequestException
+     * @throws FatalRequestException
      *
      * @return Response
-     * @throws RequestException
-     *
-     * @throws FatalRequestException
      */
     public function complete(string $account, string $m1, string $m2, string $c, bool $rememberMe = false): Response
     {
@@ -96,10 +94,10 @@ trait Idmsa
     }
 
     /**
-     * @return Response
      * @throws RequestException
-     *
      * @throws FatalRequestException
+     *
+     * @return Response
      */
     public function sign(): Response
     {
@@ -121,10 +119,12 @@ trait Idmsa
     /**
      * @param string $accountName
      * @param string $password
-     * @param bool $rememberMe
-     * @return Response
+     * @param bool   $rememberMe
+     *
      * @throws FatalRequestException
      * @throws RequestException
+     *
+     * @return Response
      */
     public function authorizeSing(string $accountName, string $password, bool $rememberMe = true): Response
     {
@@ -132,9 +132,10 @@ trait Idmsa
     }
 
     /**
-     * @return Response
      * @throws FatalRequestException
      * @throws RequestException
+     *
+     * @return Response
      */
     public function auth(): Response
     {
@@ -143,20 +144,20 @@ trait Idmsa
 
     /**
      * @param string $code
-     * @return Response
+     *
      * @throws FatalRequestException
      * @throws JsonException
      * @throws RequestException
      * @throws VerificationCodeException
+     *
+     * @return Response
      */
     public function verifySecurityCode(string $code): Response
     {
-
         try {
             return $this->getIdmsaConnector()
                 ->send(new VerifyTrustedDeviceSecurityCode($code));
         } catch (FatalRequestException|RequestException $e) {
-
             /**
              * @var Response $response
              */
@@ -175,9 +176,10 @@ trait Idmsa
     }
 
     /**
-     * @return Response
      * @throws FatalRequestException
      * @throws RequestException
+     *
+     * @return Response
      */
     public function managePrivacyAccept(): Response
     {
@@ -187,21 +189,20 @@ trait Idmsa
     /**
      * @param string $id
      * @param string $code
-     * @return Response
+     *
      * @throws FatalRequestException
      * @throws JsonException
      * @throws RequestException
      * @throws VerificationCodeException
+     *
+     * @return Response
      */
     public function verifyPhoneCode(string $id, string $code): Response
     {
         try {
-
             return $this->getIdmsaConnector()
                 ->send(new VerifyPhoneSecurityCode($id, $code));
-
         } catch (FatalRequestException|RequestException $e) {
-
             /**
              * @var Response $response
              */
@@ -220,9 +221,10 @@ trait Idmsa
     }
 
     /**
-     * @return Response
      * @throws FatalRequestException
      * @throws RequestException
+     *
+     * @return Response
      */
     public function sendSecurityCode(): Response
     {
@@ -231,9 +233,11 @@ trait Idmsa
 
     /**
      * @param int $id
-     * @return Response
+     *
      * @throws FatalRequestException
      * @throws RequestException
+     *
+     * @return Response
      */
     public function sendPhoneSecurityCode(int $id): Response
     {

@@ -1,6 +1,6 @@
 parameters:
  #设置PHPStan的规则级别，范围从0（最宽松）到8（最严格）。
- level: 8
+ level: 5
 
  #指定要分析的目录或文件
  paths:

@@ -1,10 +1,6 @@
 <?php
 
 /**
- * This file is part of the Your-Project-Name package.
- *
- * (c) Your Name <your-email@example.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -12,6 +8,7 @@
 namespace Apple\Client\Integrations\AppleId;
 
 use Apple\Client\AppleId;
+use Apple\Client\Config\Config;
 use Apple\Client\Integrations\AppleConnector;
 
 class AppleIdConnector extends AppleConnector
@@ -23,7 +20,7 @@ class AppleIdConnector extends AppleConnector
         return 'https://appleid.apple.com';
     }
 
-    public function defaultPersistentHeaders():array
+    public function defaultPersistentHeaders(): array
     {
         return ['scnt'];
     }
@@ -35,6 +32,11 @@ class AppleIdConnector extends AppleConnector
 
     protected function defaultHeaders(): array
     {
+        /**
+         * @var Config $config
+         */
+        $config = $this->config();
+
         return [
             'Connection' => 'Keep-Alive',
             'Content-Type' => 'application/json',
@@ -50,7 +52,7 @@ class AppleIdConnector extends AppleConnector
             'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
             'x-apple-i-fd-client-info' => [
                 "U" => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
-                "L" => $this->apple->config()->getLocale(),
+                "L" => $config->getLocale(),
                 "Z" => "GMT+02:00",
                 "V" => "1.1",
                 "F" => "",

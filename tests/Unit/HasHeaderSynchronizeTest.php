@@ -1,15 +1,20 @@
 <?php
 
+/**
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Tests\Unit;
 
 use Apple\Client\Header\HasHeaderSynchronize;
 use Apple\Client\Header\HasPersistentHeaders;
 use Saloon\Enums\Method;
-use Saloon\Http\PendingRequest;
-use Saloon\Http\Request;
 use Saloon\Http\Connector;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
+use Saloon\Http\PendingRequest;
+use Saloon\Http\Request;
 use Saloon\Repositories\ArrayStore as SaloonArrayStore;
 
 class TestConnector extends Connector
@@ -27,14 +32,13 @@ class TestConnector extends Connector
         return [
             'X-Persistent-Header-Name',
             'X-Persistent-Header' => 'persistent_value',
-            'X-Dynamic-Header' => fn() => 'dynamic_' . time(),
+            'X-Dynamic-Header' => fn () => 'dynamic_' . time(),
         ];
     }
 }
 
 class TestRequest extends Request
 {
-
     use HasPersistentHeaders;
 
     protected Method $method = Method::GET;
@@ -69,7 +73,6 @@ it('sets and gets header repositories', function () {
 });
 
 it('boots HasHeaderSynchronize with header repositories', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         TestRequest::class => MockResponse::make([], 200, ['X-Response-Header' => 'response_value']),
@@ -80,7 +83,7 @@ it('boots HasHeaderSynchronize with header repositories', function () {
 
     $response = $this->connector->send($this->request);
 
-    $pendingRequest= $response->getPendingRequest();
+    $pendingRequest = $response->getPendingRequest();
 
     expect($pendingRequest->headers()->get('X-Persistent-Header'))->toBe('persistent_value')
         ->and($pendingRequest->headers()->get('X-Request-Persistent-Header'))->toBe('request_persistent_value')
@@ -88,7 +91,6 @@ it('boots HasHeaderSynchronize with header repositories', function () {
 });
 
 it('supports callback functions for default values', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         TestRequest::class => MockResponse::make([], 200, ['X-Response-Header' => 'response_value']),
@@ -105,7 +107,6 @@ it('supports callback functions for default values', function () {
 });
 
 it('does not add header when callback returns null', function () {
-
     // 设置特定的模拟响应
     MockClient::global([
         TestRequest::class => MockResponse::make([], 200, ['X-Response-Header' => 'response_value']),
@@ -113,12 +114,11 @@ it('does not add header when callback returns null', function () {
 
     $headerRepo = new SaloonArrayStore();
 
-    $this->connector = new class extends TestConnector {
-
+    $this->connector = new class () extends TestConnector {
         public function defaultPersistentHeaders(): array
         {
             return [
-                'X-Null-Header' => fn() => null,
+                'X-Null-Header' => fn () => null,
             ];
         }
     };
@@ -138,7 +138,7 @@ it('does not modify headers when header repositories is not set', function () {
         TestRequest::class => MockResponse::make([], 200, ['X-Response-Header' => 'response_value']),
     ]);
 
-    $headerRepo = new SaloonArrayStore(['X-Persistent-Header-Name'=>'X-Persistent-Header-Value']);
+    $headerRepo = new SaloonArrayStore(['X-Persistent-Header-Name' => 'X-Persistent-Header-Value']);
     $this->connector->setHeaderRepositories($headerRepo);
 
     $response = $this->connector->send($this->request);
@@ -166,9 +166,7 @@ it('updates header repositories after response', function () {
 });
 
 it('preserves existing headers when adding persistent headers merge', function () {
-
-    $this->connector = new class extends TestConnector {
-
+    $this->connector = new class () extends TestConnector {
         use HasHeaderSynchronize;
         public function defaultPersistentHeaders(): array
         {
@@ -180,10 +178,7 @@ it('preserves existing headers when adding persistent headers merge', function (
     $headerRepo = new SaloonArrayStore(['X-Existing-Header' => 'existing_value']);
     $this->connector->setHeaderRepositories($headerRepo);
 
-
-    $this->request = new class extends TestRequest {
-
-
+    $this->request = new class () extends TestRequest {
         public function defaultPersistentHeaders(): array
         {
             return [
@@ -193,7 +188,7 @@ it('preserves existing headers when adding persistent headers merge', function (
 
         public function resolveEndpoint(): string
         {
-           return '/test';
+            return '/test';
         }
     };
 
@@ -208,4 +203,3 @@ it('preserves existing headers when adding persistent headers merge', function (
 
     expect($pendingRequest->headers()->get('persistentHeaders'))->toBe('Request');
 });
-

@@ -1,10 +1,26 @@
 {
   "name": "apple/client",
-  "autoload": {
-    "psr-4": {
-      "Apple\\Client\\": "src/"
-    }
-  },
+  "description": "A powerful PHP client for interacting with Apple services",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "apple",
+    "api",
+    "client",
+    "apple-id",
+    "authentication",
+    "account-management",
+    "phone-verification",
+    "security-code",
+    "two-factor-authentication",
+    "2fa",
+    "oauth",
+    "php",
+    "saloon",
+    "apple-services",
+    "idmsa",
+    "apple-auth"
+  ],
   "authors": [
     {
       "name": "weijiajia",
@@ -13,12 +29,12 @@
   ],
   "require": {
     "php": "^8.2",
-    "saloonphp/saloon": "^3.10",
-    "symfony/dom-crawler": "^7.1",
     "ext-simplexml": "*",
-    "symfony/css-selector": "^7.1",
     "ext-dom": "*",
     "ext-libxml": "*",
+    "saloonphp/saloon": "^3.10",
+    "symfony/dom-crawler": "^7.1",
+    "symfony/css-selector": "^7.1",
     "illuminate/collections": "^11.22",
     "illuminate/support": "^11.23"
   },
@@ -29,9 +45,27 @@
     "pestphp/pest": "^3.0",
     "mockery/mockery": "^1.6"
   },
+  "autoload": {
+    "psr-4": {
+      "Apple\\Client\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "pest",
+    "phpstan": "phpstan analyse",
+    "cs-fix": "php-cs-fixer fix"
+  },
   "config": {
+    "sort-packages": true,
     "allow-plugins": {
       "pestphp/pest-plugin": true
     }
-  }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
 }

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Apple\Client\DataConstruct\Phone;
 use Apple\Client\Response\HasPhoneNumbers;
 use Illuminate\Support\Collection;
@@ -32,12 +37,11 @@ beforeEach(function () {
     $this->testResponse = new TestResponse($this->mockResponse);
 });
 
-
 it('gets trusted phone number when available', function () {
     $phoneData = [
         'number' => '1234567890',
         'countryCode' => 'US',
-        'id' => 1
+        'id' => 1,
     ];
 
     $this->mockResponse->shouldReceive('authorizeSing')
@@ -45,18 +49,19 @@ it('gets trusted phone number when available', function () {
             'direct' => [
                 'twoSV' => [
                     'phoneNumberVerification' => [
-                        'trustedPhoneNumber' => $phoneData
-                    ]
-                ]
-            ]
+                        'trustedPhoneNumber' => $phoneData,
+                    ],
+                ],
+            ],
         ]);
 
     /**
-     * @var  Phone $trustedPhone
+     * @var Phone $trustedPhone
      */
     $trustedPhone = $this->testResponse->getTrustedPhoneNumber();
 
-    expect($trustedPhone)->toBeInstanceOf(Phone::class);;
+    expect($trustedPhone)->toBeInstanceOf(Phone::class);
+    ;
 });
 
 it('returns null when trusted phone number is not available', function () {
@@ -64,9 +69,9 @@ it('returns null when trusted phone number is not available', function () {
         ->andReturn([
             'direct' => [
                 'twoSV' => [
-                    'phoneNumberVerification' => []
-                ]
-            ]
+                    'phoneNumberVerification' => [],
+                ],
+            ],
         ]);
 
     $trustedPhone = $this->testResponse->getTrustedPhoneNumber();
@@ -79,13 +84,13 @@ it('gets all trusted phone numbers', function () {
         [
             'number' => '1234567890',
             'countryCode' => 'US',
-            'id' => 1
+            'id' => 1,
         ],
         [
             'number' => '0987654321',
             'countryCode' => 'UK',
-            'id' => 2
-        ]
+            'id' => 2,
+        ],
     ];
 
     $this->mockResponse->shouldReceive('authorizeSing')
@@ -93,10 +98,10 @@ it('gets all trusted phone numbers', function () {
             'direct' => [
                 'twoSV' => [
                     'phoneNumberVerification' => [
-                        'trustedPhoneNumbers' => $phoneData
-                    ]
-                ]
-            ]
+                        'trustedPhoneNumbers' => $phoneData,
+                    ],
+                ],
+            ],
         ]);
 
     $trustedPhones = $this->testResponse->getTrustedPhoneNumbers();
@@ -113,10 +118,10 @@ it('returns empty collection when no trusted phone numbers are available', funct
             'direct' => [
                 'twoSV' => [
                     'phoneNumberVerification' => [
-                        'trustedPhoneNumbers' => []
-                    ]
-                ]
-            ]
+                        'trustedPhoneNumbers' => [],
+                    ],
+                ],
+            ],
         ]);
 
     $trustedPhones = $this->testResponse->getTrustedPhoneNumbers();
@@ -128,7 +133,7 @@ it('returns empty collection when no trusted phone numbers are available', funct
 it('gets phone number verification information', function () {
     $verificationData = [
         'status' => 'verified',
-        'phoneNumber' => '1234567890'
+        'phoneNumber' => '1234567890',
     ];
 
     $this->mockResponse->shouldReceive('json')
@@ -155,7 +160,6 @@ it('handles JsonException when parsing phone data', function () {
         ->andThrow(new JsonException('Invalid JSON'));
 
     $trustedPhone = $this->testResponse->getTrustedPhoneNumber();
-
 })->throws(JsonException::class);
 
 it('handles JsonException when parsing trusted phone numbers', function () {
@@ -163,7 +167,6 @@ it('handles JsonException when parsing trusted phone numbers', function () {
         ->andThrow(new JsonException('Invalid JSON'));
 
     $trustedPhones = $this->testResponse->getTrustedPhoneNumbers();
-
 })->throws(JsonException::class);
 
 it('handles JsonException when getting phone number verification', function () {
@@ -172,5 +175,4 @@ it('handles JsonException when getting phone number verification', function () {
         ->andThrow(new JsonException('Invalid JSON'));
 
     $verification = $this->testResponse->phoneNumberVerification();
-
 })->throws(JsonException::class);

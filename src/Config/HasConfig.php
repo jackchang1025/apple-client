@@ -1,10 +1,6 @@
 <?php
 
 /**
- * This file is part of the Your-Project-Name package.
- *
- * (c) Your Name <your-email@example.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -12,7 +8,6 @@
 namespace Apple\Client\Config;
 
 use Saloon\Contracts\ArrayStore as ArrayStoreContract;
-use Saloon\Repositories\ArrayStore;
 use Saloon\Traits\RequestProperties\HasConfig as HasBaseConfig;
 
 trait HasConfig
@@ -25,28 +20,31 @@ trait HasConfig
     }
 
     /**
-     * 设置配置
+     * 设置配置.
      *
      * 支持传入 Config 对象或数组来配置
      *
      * @param ArrayStoreContract|array<string, mixed>|string $config
-     * @param mixed|null $value
+     * @param mixed|null                                     $value
+     *
      * @return $this
      */
     public function withConfig(ArrayStoreContract|array|string $config, mixed $value = null): static
     {
-        if ($config instanceof ArrayStoreContract) {
+        if ($config instanceof Config) {
             $this->config = $config;
+
             return $this;
         }
 
         if (is_array($config)) {
             $configObject = $this->config();
             $configObject->merge($config);
+
             return $this;
         }
 
-        if ($value !== null){
+        if ($value !== null) {
             $this->config()->add($config, $value);
         }
 
