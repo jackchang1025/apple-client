@@ -5,9 +5,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Response;
+namespace Weijiajia\Response;
 
-use Apple\Client\DataConstruct\ServiceError;
+use Weijiajia\DataConstruct\ServiceError;
 use Illuminate\Support\Collection;
 
 trait HasServiceError

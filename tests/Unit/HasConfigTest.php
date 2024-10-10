@@ -7,8 +7,8 @@
 
 namespace Tests\Unit;
 
-use Apple\Client\Config\Config;
-use Apple\Client\Config\HasConfig;
+use Weijiajia\Config\Config;
+use Weijiajia\Config\HasConfig;
 
 class HasConfigTest
 {

@@ -5,10 +5,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Integrations;
+namespace Weijiajia\Integrations;
 
-use Apple\Client\Header\HasPersistentHeaders;
-use Apple\Client\Proxy\HasProxy;
+use Weijiajia\Header\HasPersistentHeaders;
+use Weijiajia\Proxy\HasProxy;
 use Saloon\Http\Request as SaloonRequest;
 
 abstract class Request extends SaloonRequest

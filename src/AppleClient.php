@@ -5,21 +5,25 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client;
+namespace Weijiajia;
 
-use Apple\Client\Config\HasConfig;
-use Apple\Client\Cookies\CookieJarInterface;
-use Apple\Client\Cookies\HasCookie;
-use Apple\Client\Header\HasHeaderSynchronize;
-use Apple\Client\Helpers\Helpers;
-use Apple\Client\Integrations\AppleAuth\AppleAuthConnector;
-use Apple\Client\Integrations\AppleId\AppleIdConnector;
-use Apple\Client\Integrations\Idmsa\IdmsaConnector;
-use Apple\Client\Logger\Logger;
-use Apple\Client\Proxy\HasProxy;
+use Saloon\Traits\Conditionable;
+use Weijiajia\Config\HasConfig;
+use Weijiajia\Cookies\CookieJarInterface;
+use Weijiajia\Cookies\HasCookie;
+use Weijiajia\Header\HasHeaderSynchronize;
+use Weijiajia\Helpers\Helpers;
+use Weijiajia\Integrations\AppleAuth\AppleAuthConnector;
+use Weijiajia\Integrations\AppleId\AppleIdConnector;
+use Weijiajia\Integrations\Idmsa\IdmsaConnector;
+use Weijiajia\Logger\Logger;
+use Weijiajia\Proxy\HasProxy;
 use Psr\Log\LoggerInterface;
 use Saloon\Contracts\ArrayStore as ArrayStoreContract;
 use Saloon\Traits\Macroable;
+use Weijiajia\Store\CacheStore;
+use Weijiajia\Store\HasCacheStore;
+use Weijiajia\Trait\HasTries;
 
 class AppleClient
 {
@@ -33,24 +37,31 @@ class AppleClient
     use HasHeaderSynchronize;
     use Helpers;
     use Logger;
+    use Conditionable;
+    use HasCacheStore;
+    use HasTries;
 
     protected AppleIdConnector $appleIdConnector;
     protected IdmsaConnector $idmsaConnector;
     protected AppleAuthConnector $appleAuthConnector;
 
+
     /**
-     * @param ArrayStoreContract      $config
+     * @param ArrayStoreContract $config
      * @param ArrayStoreContract|null $headerRepositories
      * @param CookieJarInterface|null $cookieJar
-     * @param LoggerInterface|null    $logger
+     * @param LoggerInterface|null $logger
+     * @param CacheStore|null $cacheStore
      */
     public function __construct(
         ArrayStoreContract $config,
         ?ArrayStoreContract $headerRepositories = null,
         ?CookieJarInterface $cookieJar = null,
         ?LoggerInterface $logger = null,
+        ?CacheStore $cacheStore = null,
     ) {
         $this->withConfig($config);
+        $this->withCacheStore($cacheStore);
         $this->setLogger($logger);
         $this->setHeaderRepositories($headerRepositories);
         $this->setCookieJar($cookieJar);

@@ -5,7 +5,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Response;
+namespace Weijiajia\Response;
 
 trait HasAuth
 {

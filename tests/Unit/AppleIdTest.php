@@ -5,17 +5,17 @@
  * file that was distributed with this source code.
  */
 
-use Apple\Client\AppleClient;
-use Apple\Client\AppleId;
-use Apple\Client\Config\Config;
-use Apple\Client\Exception\AccountLockoutException;
-use Apple\Client\Exception\PhoneException;
-use Apple\Client\Integrations\AppleId\AppleIdConnector;
-use Apple\Client\Integrations\AppleId\Request\AccountManage\SecurityVerifyPhone;
-use Apple\Client\Integrations\AppleId\Request\AccountManage\SecurityVerifyPhoneSecurityCode;
-use Apple\Client\Integrations\AppleId\Request\AccountManage\Token;
-use Apple\Client\Integrations\AppleId\Request\AuthenticatePassword;
-use Apple\Client\Integrations\AppleId\Request\Bootstrap;
+use Weijiajia\AppleClient;
+use Weijiajia\AppleId;
+use Weijiajia\Config\Config;
+use Weijiajia\Exception\AccountLockoutException;
+use Weijiajia\Exception\PhoneException;
+use Weijiajia\Integrations\AppleId\AppleIdConnector;
+use Weijiajia\Integrations\AppleId\Request\AccountManage\SecurityVerifyPhone;
+use Weijiajia\Integrations\AppleId\Request\AccountManage\SecurityVerifyPhoneSecurityCode;
+use Weijiajia\Integrations\AppleId\Request\AccountManage\Token;
+use Weijiajia\Integrations\AppleId\Request\AuthenticatePassword;
+use Weijiajia\Integrations\AppleId\Request\Bootstrap;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Saloon\Exceptions\Request\ClientException;
 use Saloon\Exceptions\Request\Statuses\InternalServerErrorException;

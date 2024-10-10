@@ -5,20 +5,70 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Logger;
+namespace Weijiajia\Logger;
 
+use Illuminate\Support\Str;
 use Psr\Log\LoggerInterface;
+use Saloon\Enums\PipeOrder;
 use Saloon\Http\PendingRequest;
 use Saloon\Http\Response;
+use Weijiajia\Trait\HasPipeline;
 
 trait Logger
 {
-    protected bool $booted = false;
+    use HasPipeline;
+
     protected ?LoggerInterface $logger = null;
 
-    public function setLogger(?LoggerInterface $logger): void
+    public function bootLogger(PendingRequest $pendingRequest): void
     {
-        $this->logger = $logger;
+        if(!$this->requestPipelineExists($pendingRequest,'logger_request')){
+
+            $pendingRequest->getConnector()
+                ->middleware()
+                ->onRequest(
+                function (PendingRequest $request) {
+
+                    $this->getLogger()?->debug('request', [
+                        'method' => $request->getMethod(),
+                        'uri'    => (string)$request->getUri(),
+                        'store'  => $request->getConnector()->getApple()->getCacheStore()->all(),
+                        'config'  => $request->config()->all(),
+                        'headers' => $request->headers()->all(),
+                        'body'    => $request->body()?->all(),
+                    ]);
+
+                    return $request;
+                },
+                'logger_request',
+                PipeOrder::LAST
+            );
+
+        }
+
+        if(!$this->responsePipelineExists($pendingRequest,'logger_response')){
+
+            $pendingRequest->getConnector()->middleware()->onResponse(
+                function (Response $response){
+
+                    $body = trim($response->body());
+
+                    if (Str::length($body) > 2000) {
+                        $body = Str::substr($body, 0, 2000);
+                    }
+
+                    $this->getLogger()?->debug('response', [
+                        'status' => $response->status(),
+                        'headers' => $response->headers()->all(),
+                        'body' => $body,
+                    ]);
+
+                    return $response;
+                },
+                'logger_response',
+                PipeOrder::FIRST
+            );
+        }
     }
 
     public function getLogger(): ?LoggerInterface
@@ -26,42 +76,8 @@ trait Logger
         return $this->logger;
     }
 
-    public function defaultRequestMiddle(PendingRequest $pendingRequest): \Closure
+    public function setLogger(?LoggerInterface $logger): void
     {
-        return function (PendingRequest $request) {
-            $this->getLogger()?->debug('request', [
-                    'method' => $request->getMethod(),
-                    'uri' => (string) $request->getUri(),
-                    'headers' => $request->headers(),
-                    'body' => $request->body()?->all(),
-                ]);
-
-            return $request;
-        };
-    }
-
-    public function defaultResponseMiddle(PendingRequest $pendingRequest): \Closure
-    {
-        return function (Response $response) {
-            $this->getLogger()?->debug('response', [
-                    'status' => $response->status(),
-                    'headers' => $response->headers(),
-                    'body' => $response->body(),
-                ]);
-
-            return $response;
-        };
-    }
-
-    public function bootLogger(PendingRequest $pendingRequest): void
-    {
-        if ($this->booted || $this->getLogger() === null) {
-            return;
-        }
-
-        $this->booted = true;
-
-        $pendingRequest->getConnector()->middleware()->onRequest($this->defaultRequestMiddle($pendingRequest));
-        $pendingRequest->getConnector()->middleware()->onResponse($this->defaultResponseMiddle($pendingRequest));
+        $this->logger = $logger;
     }
 }

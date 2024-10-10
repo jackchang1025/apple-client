@@ -7,8 +7,8 @@
 
 namespace Tests\Unit;
 
-use Apple\Client\Cookies\CookieJar;
-use Apple\Client\Cookies\HasCookie;
+use Weijiajia\Cookies\CookieJar;
+use Weijiajia\Cookies\HasCookie;
 use Mockery;
 use Saloon\Helpers\MiddlewarePipeline;
 use Saloon\Http\Faking\MockClient;

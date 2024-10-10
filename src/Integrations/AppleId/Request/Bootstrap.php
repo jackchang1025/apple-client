@@ -5,9 +5,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Integrations\AppleId\Request;
+namespace Weijiajia\Integrations\AppleId\Request;
 
-use Apple\Client\Integrations\Request;
+use Weijiajia\Integrations\Request;
 use Saloon\Enums\Method;
 
 class Bootstrap extends Request

@@ -5,7 +5,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Config;
+namespace Weijiajia\Config;
 
 use Saloon\Repositories\ArrayStore;
 

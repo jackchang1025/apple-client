@@ -5,10 +5,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Exception;
+namespace Weijiajia\Exception;
 
-use Saloon\Exceptions\Request\ClientException;
 
-class ErrorException extends ClientException
+class ErrorException extends AppleClientException
 {
 }

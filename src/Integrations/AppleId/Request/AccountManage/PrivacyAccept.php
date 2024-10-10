@@ -5,9 +5,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Integrations\AppleId\Request\AccountManage;
+namespace Weijiajia\Integrations\AppleId\Request\AccountManage;
 
-use Apple\Client\Integrations\Request;
+use Weijiajia\Integrations\Request;
 use Saloon\Enums\Method;
 
 class PrivacyAccept extends Request

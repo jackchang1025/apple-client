@@ -5,15 +5,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Header;
+namespace Weijiajia\Store;
 
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 use RuntimeException;
 use Saloon\Repositories\ArrayStore;
+use Saloon\Traits\Conditionable;
 
 class CacheStore extends ArrayStore
 {
+    use Conditionable;
+
     /**
      * @param CacheInterface $cache
      * @param string         $key
@@ -26,6 +29,7 @@ class CacheStore extends ArrayStore
         protected readonly CacheInterface $cache,
         protected readonly string $key = '',
         protected readonly int $ttl = 3600,
+        protected readonly string $prx = "stores",
         protected readonly array $defaultData = []
     ) {
         parent::__construct(array_merge($defaultData, $this->load()));
@@ -69,6 +73,6 @@ class CacheStore extends ArrayStore
 
     protected function getCacheKey(): string
     {
-        return sprintf("stores:%s", $this->key);
+        return sprintf("{$this->prx}:%s", $this->key);
     }
 }

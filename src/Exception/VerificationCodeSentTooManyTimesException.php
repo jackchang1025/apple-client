@@ -5,10 +5,8 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Exception;
+namespace Weijiajia\Exception;
 
-use Saloon\Exceptions\Request\ClientException;
-
-class VerificationCodeSentTooManyTimesException extends ClientException
+class VerificationCodeSentTooManyTimesException extends AppleClientException
 {
 }

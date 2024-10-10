@@ -5,15 +5,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Integrations\AppleId;
+namespace Weijiajia\Integrations\AppleId;
 
-use Apple\Client\AppleId;
-use Apple\Client\Config\Config;
-use Apple\Client\Integrations\AppleConnector;
+use Weijiajia\AppleId;
+use Weijiajia\Config\Config;
+use Weijiajia\Integrations\AppleConnector;
 
 class AppleIdConnector extends AppleConnector
 {
     use AppleId;
+
 
     public function resolveBaseUrl(): string
     {

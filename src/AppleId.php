@@ -5,21 +5,22 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client;
+namespace Weijiajia;
 
-use Apple\Client\Exception\AccountLockoutException;
-use Apple\Client\Exception\BindPhoneException;
-use Apple\Client\Exception\ErrorException;
-use Apple\Client\Exception\PhoneException;
-use Apple\Client\Exception\PhoneNumberAlreadyExistsException;
-use Apple\Client\Exception\VerificationCodeSentTooManyTimesException;
-use Apple\Client\Integrations\AppleId\AppleIdConnector;
-use Apple\Client\Integrations\AppleId\Request\AccountManage\SecurityVerifyPhone;
-use Apple\Client\Integrations\AppleId\Request\AccountManage\SecurityVerifyPhoneSecurityCode;
-use Apple\Client\Integrations\AppleId\Request\AccountManage\Token;
-use Apple\Client\Integrations\AppleId\Request\AuthenticatePassword;
-use Apple\Client\Integrations\AppleId\Request\Bootstrap;
-use Apple\Client\Response\Response;
+use Weijiajia\Exception\AccountLockoutException;
+use Weijiajia\Exception\BindPhoneException;
+use Weijiajia\Exception\ErrorException;
+use Weijiajia\Exception\PhoneException;
+use Weijiajia\Exception\PhoneNumberAlreadyExistsException;
+use Weijiajia\Exception\StolenDeviceProtectionException;
+use Weijiajia\Exception\VerificationCodeSentTooManyTimesException;
+use Weijiajia\Integrations\AppleId\AppleIdConnector;
+use Weijiajia\Integrations\AppleId\Request\AccountManage\SecurityVerifyPhone;
+use Weijiajia\Integrations\AppleId\Request\AccountManage\SecurityVerifyPhoneSecurityCode;
+use Weijiajia\Integrations\AppleId\Request\AccountManage\Token;
+use Weijiajia\Integrations\AppleId\Request\AuthenticatePassword;
+use Weijiajia\Integrations\AppleId\Request\Bootstrap;
+use Weijiajia\Response\Response;
 use JsonException;
 use Saloon\Exceptions\Request\FatalRequestException;
 use Saloon\Exceptions\Request\RequestException;
@@ -89,7 +90,7 @@ trait AppleId
         try {
             return $this->getAppleIdConnector()
                 ->send(new SecurityVerifyPhone($countryCode, $phoneNumber, $countryDialCode, $nonFTEU));
-        } catch (FatalRequestException|RequestException $e) {
+        } catch (RequestException $e) {
             /**
              * @var Response $response
              */
@@ -100,7 +101,7 @@ trait AppleId
             }
 
             if ($response->status() === 467) {
-                throw  new AccountLockoutException(response: $response);
+                throw  new StolenDeviceProtectionException(response: $response);
             }
 
             $error = $response->getFirstServiceError();
@@ -126,7 +127,7 @@ trait AppleId
                 );
             }
 
-            if ($error?->getCode() === 'phone.number.already.exists') { //PhoneNumberAlreadyExists
+            if ($error?->getCode() === 'phone.number.already.exists') {
                 throw new PhoneNumberAlreadyExistsException(
                     response: $response
                 );

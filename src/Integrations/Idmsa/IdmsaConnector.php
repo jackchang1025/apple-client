@@ -5,11 +5,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Integrations\Idmsa;
+namespace Weijiajia\Integrations\Idmsa;
 
-use Apple\Client\Config\Config;
-use Apple\Client\Idmsa;
-use Apple\Client\Integrations\AppleConnector;
+use Weijiajia\Config\Config;
+use Weijiajia\Idmsa;
+use Weijiajia\Integrations\AppleConnector;
 
 class IdmsaConnector extends AppleConnector
 {

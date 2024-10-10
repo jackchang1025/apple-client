@@ -5,7 +5,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Helpers;
+namespace Weijiajia\Helpers;
 
 trait Helpers
 {

@@ -5,8 +5,8 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Exception;
+namespace Weijiajia\Exception;
 
-class VerificationCodeException extends \Exception
+class VerificationCodeException extends AppleClientException
 {
 }

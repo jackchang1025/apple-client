@@ -5,30 +5,29 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Integrations;
+namespace Weijiajia\Integrations;
 
-use Apple\Client\AppleClient;
-use Apple\Client\Config\HasConfig;
-use Apple\Client\Cookies\CookieJarInterface;
-use Apple\Client\Cookies\HasCookie;
-use Apple\Client\Header\HasHeaderSynchronize;
-use Apple\Client\Header\HasPersistentHeaders;
-use Apple\Client\Helpers\Helpers;
-use Apple\Client\Logger\Logger;
-use Apple\Client\Proxy\HasProxy;
-use Apple\Client\Response\Response;
-use GuzzleHttp\RequestOptions;
-use Illuminate\Support\Str;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
+use Weijiajia\AppleClient;
+use Weijiajia\Config\HasConfig;
+use Weijiajia\Cookies\CookieJarInterface;
+use Weijiajia\Cookies\HasCookie;
+use Weijiajia\Header\HasHeaderSynchronize;
+use Weijiajia\Header\HasPersistentHeaders;
+use Weijiajia\Helpers\Helpers;
+use Weijiajia\Logger\Logger;
+use Weijiajia\Proxy\HasProxy;
+use Weijiajia\Response\Response;
 use Psr\Log\LoggerInterface;
 use Saloon\Contracts\ArrayStore;
 use Saloon\Http\Connector;
 use Saloon\Http\Faking\MockClient;
-use Saloon\Http\PendingRequest;
 use Saloon\Http\Request;
 use Saloon\Traits\Plugins\AlwaysThrowOnErrors;
 use Saloon\Traits\Plugins\HasTimeout;
+use Weijiajia\Trait\HasTries;
+use Saloon\Exceptions\Request\FatalRequestException;
+use Saloon\Exceptions\Request\RequestException;
+
 
 abstract class AppleConnector extends Connector
 {
@@ -41,12 +40,14 @@ abstract class AppleConnector extends Connector
     use HasProxy;
     use HasConfig;
     use Helpers;
+    use HasTries;
     use HasConfig {
         HasConfig::config as baseConfig;
     }
 
     public function __construct(protected AppleClient $apple)
     {
+        $this->setTries(3);
     }
 
     public function getProxy(): ?string
@@ -105,59 +106,10 @@ abstract class AppleConnector extends Connector
         return $response;
     }
 
-    public function defaultRequestMiddle(PendingRequest $pendingRequest): \Closure
+    public function handleRetry(FatalRequestException|RequestException $exception, Request $request): bool
     {
-        /**
-         * @var AppleConnector $connector
-         */
-        $connector = $pendingRequest->getConnector();
+        $handleRetry = $this->getHandleRetry() ?? $this->apple->getHandleRetry() ?? static fn (): bool => true;
 
-        $config = $connector->getApple()->config();
-
-        $pendingRequest->config()->get(RequestOptions::PROXY);
-
-        return function (RequestInterface $request) use ($config) {
-            $this->getLogger()
-                ?->debug('request', [
-                    'account' => $config->get('account')?->account,
-                    'method' => $request->getMethod(),
-                    'uri' => (string) $request->getUri(),
-                    'headers' => $request->getHeaders(),
-                    'body' => (string) $request->getBody(),
-                ]);
-
-            return $request;
-        };
-    }
-
-    public function defaultResponseMiddle(PendingRequest $pendingRequest): \Closure
-    {
-        /**
-         * @var AppleConnector $connector
-         */
-        $connector = $pendingRequest->getConnector();
-
-        $config = $connector->getApple()->config();
-
-        return function (ResponseInterface $response) use ($config) {
-            $contentType = $response->getHeaderLine('Content-Type');
-
-            if ($contentType !== 'text/html;charset=UTF-8') {
-                $body = (string) $response->getBody();
-
-                if (Str::length($body) > 2000) {
-                    $body = Str::substr($body, 0, 2000);
-                }
-
-                $this->getLogger()?->info('response', [
-                    'account' => $config->get('account')?->account,
-                    'status' => $response->getStatusCode(),
-                    'headers' => $response->getHeaders(),
-                    'body' => $body,
-                ]);
-            }
-
-            return $response;
-        };
+       return $handleRetry($exception,$request);
     }
 }

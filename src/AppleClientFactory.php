@@ -5,15 +5,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client;
+namespace Weijiajia;
 
-use Apple\Client\Config\Config;
-use Apple\Client\Cookies\Cookies;
-use Apple\Client\Header\CacheStore;
 use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
+use Weijiajia\Config\Config;
+use Weijiajia\Cookies\Cookies;
+use Weijiajia\Store\CacheStore;
 
-readonly class AppleFactory
+readonly class AppleClientFactory
 {
     public function __construct(
         protected CacheInterface $cache,
@@ -42,6 +42,15 @@ readonly class AppleFactory
             cache: $this->cache,
             key: $clientId,
             ttl: 3600,
+            prx: 'header',
+            defaultData: []
+        );
+
+        $cacheStore = new CacheStore(
+            cache: $this->cache,
+            key: $clientId,
+            ttl: 3600,
+            prx: 'stores',
             defaultData: []
         );
 
@@ -50,6 +59,7 @@ readonly class AppleFactory
             headerRepositories: $headerStore,
             cookieJar: $cookieStore,
             logger: $this->logger,
+            cacheStore: $cacheStore,
         );
     }
 }

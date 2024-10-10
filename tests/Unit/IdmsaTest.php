@@ -5,23 +5,23 @@
  * file that was distributed with this source code.
  */
 
-use Apple\Client\AppleClient;
-use Apple\Client\Config\Config;
-use Apple\Client\Config\HasConfig;
-use Apple\Client\Exception\VerificationCodeException;
-use Apple\Client\Helpers\Helpers;
-use Apple\Client\Idmsa;
-use Apple\Client\Integrations\Idmsa\IdmsaConnector;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\Auth;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\AuthorizeComplete;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\AuthorizeSing;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\AuthRepairComplete;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\SendPhoneSecurityCode;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\SendTrustedDeviceSecurityCode;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\Signin;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\SigninInit;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\VerifyPhoneSecurityCode;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\VerifyTrustedDeviceSecurityCode;
+use Weijiajia\AppleClient;
+use Weijiajia\Config\Config;
+use Weijiajia\Config\HasConfig;
+use Weijiajia\Exception\VerificationCodeException;
+use Weijiajia\Helpers\Helpers;
+use Weijiajia\Idmsa;
+use Weijiajia\Integrations\Idmsa\IdmsaConnector;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\Auth;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\AuthorizeComplete;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\AuthorizeSing;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\AuthRepairComplete;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\SendPhoneSecurityCode;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\SendTrustedDeviceSecurityCode;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\Signin;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\SigninInit;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\VerifyPhoneSecurityCode;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\VerifyTrustedDeviceSecurityCode;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Saloon\Exceptions\Request\RequestException;
 use Saloon\Http\Faking\MockClient;

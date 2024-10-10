@@ -7,18 +7,18 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-use Apple\Client\AppleClient;
-use Apple\Client\Config\Config;
-use Apple\Client\Cookies\Cookies;
-use Apple\Client\Header\CacheStore;
-use Apple\Client\Integrations\AppleAuth\AppleAuthConnector;
-use Apple\Client\Integrations\AppleId\AppleIdConnector;
-use Apple\Client\Integrations\Idmsa\IdmsaConnector;
-use Apple\Client\Response\Response;
 use Psr\Log\LoggerInterface;
 use Saloon\Exceptions\Request\ClientException;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
+use Weijiajia\AppleClient;
+use Weijiajia\Config\Config;
+use Weijiajia\Cookies\Cookies;
+use Weijiajia\Integrations\AppleAuth\AppleAuthConnector;
+use Weijiajia\Integrations\AppleId\AppleIdConnector;
+use Weijiajia\Integrations\Idmsa\IdmsaConnector;
+use Weijiajia\Response\Response;
+use Weijiajia\Store\CacheStore;
 
 beforeEach(function () {
     $this->config = new Config([

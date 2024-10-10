@@ -5,8 +5,8 @@
  * file that was distributed with this source code.
  */
 
-use Apple\Client\Cookies\CookieJar;
-use Apple\Client\Cookies\SetCookie;
+use Weijiajia\Cookies\CookieJar;
+use Weijiajia\Cookies\SetCookie;
 use Saloon\Http\PendingRequest;
 use Saloon\Http\Response;
 

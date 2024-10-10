@@ -5,9 +5,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Integrations\Idmsa\Request\AppleAuth;
+namespace Weijiajia\Integrations\Idmsa\Request\AppleAuth;
 
-use Apple\Client\Integrations\Request;
+use Weijiajia\Integrations\Request;
 use Saloon\Enums\Method;
 
 class AuthRepairComplete extends Request
@@ -17,12 +17,5 @@ class AuthRepairComplete extends Request
     public function resolveEndpoint(): string
     {
         return '/appleauth/auth/repair/complete';
-    }
-
-    public function defaultHeaders(): array
-    {
-        return [
-//            'X-Apple-Repair-Session-Token' => $this->user->getHeader('X-Apple-Repair-Session-Token') ?? '',
-        ];
     }
 }

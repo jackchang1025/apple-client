@@ -5,15 +5,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Integrations\AppleAuth;
+namespace Weijiajia\Integrations\AppleAuth;
 
-use Apple\Client\AppleAuth;
-use Apple\Client\AppleClient;
-use Apple\Client\Integrations\AppleConnector;
+use Weijiajia\AppleAuth;
+use Weijiajia\AppleClient;
+use Weijiajia\Integrations\AppleConnector;
 
 class AppleAuthConnector extends AppleConnector
 {
     use AppleAuth;
+
+    protected bool $proxyEnabled = false;
+
     protected ?array $options;
 
     public function __construct(protected AppleClient $apple)

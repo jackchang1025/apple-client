@@ -5,9 +5,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Proxy;
+namespace Weijiajia\Proxy;
 
-use Apple\Client\Config\HasConfig;
+use Weijiajia\Config\HasConfig;
 use GuzzleHttp\RequestOptions;
 use InvalidArgumentException;
 use Saloon\Http\PendingRequest;
@@ -16,9 +16,24 @@ trait HasProxy
 {
     use HasConfig;
 
+    protected ?string $proxy = null;
+
+    protected bool $proxyEnabled = true;
+
+    public function isProxyEnabled(): bool
+    {
+        return $this->proxyEnabled;
+    }
+
+    public function setProxyEnabled(bool $proxyEnabled): void
+    {
+        $this->proxyEnabled = $proxyEnabled;
+    }
+
     public function bootHasProxy(PendingRequest $pendingRequest): void
     {
-        if ($this->getProxy()) {
+        if ($this->getProxy() && $this->isProxyEnabled()) {
+
             $pendingRequest->config()
                 ->add(RequestOptions::PROXY, $this->getProxy());
         }
@@ -26,15 +41,16 @@ trait HasProxy
 
     public function getProxy(): ?string
     {
-        return $this->config()->get(RequestOptions::PROXY);
+        return $this->proxy;
     }
 
-    public function withProxy(?string $proxy): static
+    public function withProxy(?string $proxy = null): static
     {
         if ($proxy !== null && !$this->isValidProxyUrl($proxy)) {
             throw new InvalidArgumentException("Invalid proxy URL: $proxy");
         }
-        $this->config()->add(RequestOptions::PROXY, $proxy);
+
+        $this->proxy = $proxy;
 
         return $this;
     }

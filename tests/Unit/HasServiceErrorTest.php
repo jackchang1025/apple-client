@@ -5,8 +5,8 @@
  * file that was distributed with this source code.
  */
 
-use Apple\Client\DataConstruct\ServiceError;
-use Apple\Client\Response\HasServiceError;
+use Weijiajia\DataConstruct\ServiceError;
+use Weijiajia\Response\HasServiceError;
 use Illuminate\Support\Collection;
 use Saloon\Http\Response;
 

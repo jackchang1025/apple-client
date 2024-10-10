@@ -5,8 +5,8 @@
  * file that was distributed with this source code.
  */
 
-use Apple\Client\DataConstruct\Phone;
-use Apple\Client\Response\HasPhoneNumbers;
+use Weijiajia\DataConstruct\Phone;
+use Weijiajia\Response\HasPhoneNumbers;
 use Illuminate\Support\Collection;
 use Saloon\Http\Response;
 

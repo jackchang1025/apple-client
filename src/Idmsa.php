@@ -5,22 +5,22 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client;
+namespace Weijiajia;
 
-use Apple\Client\Config\Config;
-use Apple\Client\Exception\VerificationCodeException;
-use Apple\Client\Integrations\Idmsa\IdmsaConnector;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\Auth;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\AuthorizeComplete;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\AuthorizeSing;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\AuthRepairComplete;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\SendPhoneSecurityCode;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\SendTrustedDeviceSecurityCode;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\Signin;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\SigninInit;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\VerifyPhoneSecurityCode;
-use Apple\Client\Integrations\Idmsa\Request\AppleAuth\VerifyTrustedDeviceSecurityCode;
-use Apple\Client\Response\Response;
+use Weijiajia\Config\Config;
+use Weijiajia\Exception\VerificationCodeException;
+use Weijiajia\Integrations\Idmsa\IdmsaConnector;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\Auth;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\AuthorizeComplete;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\AuthorizeSing;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\AuthRepairComplete;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\SendPhoneSecurityCode;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\SendTrustedDeviceSecurityCode;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\Signin;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\SigninInit;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\VerifyPhoneSecurityCode;
+use Weijiajia\Integrations\Idmsa\Request\AppleAuth\VerifyTrustedDeviceSecurityCode;
+use Weijiajia\Response\Response;
 use InvalidArgumentException;
 use JsonException;
 use Saloon\Exceptions\Request\FatalRequestException;

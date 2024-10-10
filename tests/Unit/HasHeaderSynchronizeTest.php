@@ -7,8 +7,8 @@
 
 namespace Tests\Unit;
 
-use Apple\Client\Header\HasHeaderSynchronize;
-use Apple\Client\Header\HasPersistentHeaders;
+use Weijiajia\Header\HasHeaderSynchronize;
+use Weijiajia\Header\HasPersistentHeaders;
 use Saloon\Enums\Method;
 use Saloon\Http\Connector;
 use Saloon\Http\Faking\MockClient;

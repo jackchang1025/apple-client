@@ -5,11 +5,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client;
+namespace Weijiajia;
 
-use Apple\Client\Integrations\AppleAuth\AppleAuthConnector;
-use Apple\Client\Integrations\AppleAuth\Request\Complete;
-use Apple\Client\Integrations\AppleAuth\Request\Init;
+use Weijiajia\Integrations\AppleAuth\AppleAuthConnector;
+use Weijiajia\Integrations\AppleAuth\Request\Complete;
+use Weijiajia\Integrations\AppleAuth\Request\Init;
 use InvalidArgumentException;
 
 trait AppleAuth

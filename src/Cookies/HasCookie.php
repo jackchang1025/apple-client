@@ -5,24 +5,35 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Cookies;
+namespace Weijiajia\Cookies;
 
 use Saloon\Http\PendingRequest;
 use Saloon\Http\Response;
+use Weijiajia\Trait\HasPipeline;
 
 trait HasCookie
 {
+    use HasPipeline;
+
     protected ?CookieJarInterface $cookieJar = null;
 
     public function bootHasCookie(PendingRequest $pendingRequest): void
     {
-        $pendingRequest->getConnector()
-            ->middleware()
-            ->onRequest(fn (PendingRequest $request) => $this->getCookieJar()?->withCookieHeader($request));
+        if(!$this->requestPipelineExists($pendingRequest,'withCookieHeader')){
+            $pendingRequest->getConnector()
+                ->middleware()
+                ->onRequest(function (PendingRequest $pendingRequest){
+                    return $this->getCookieJar()?->withCookieHeader($pendingRequest);
 
-        $pendingRequest->getConnector()
-            ->middleware()
-            ->onResponse(fn (Response $response) => $this->getCookieJar()?->extractCookies($pendingRequest, $response));
+                },'withCookieHeader');
+
+        }
+
+        if(!$this->responsePipelineExists($pendingRequest,'extractCookies')){
+            $pendingRequest->getConnector()
+                ->middleware()
+                ->onResponse(fn (Response $response) => $this->getCookieJar()?->extractCookies($pendingRequest, $response),'extractCookies');
+        }
     }
 
     public function setCookieJar(?CookieJarInterface $cookieJar): void

@@ -7,9 +7,9 @@
 
 namespace Tests\Feature;
 
-use Apple\Client\Cookies\CookieJar;
-use Apple\Client\Cookies\HasCookie;
-use Apple\Client\Cookies\SetCookie;
+use Weijiajia\Cookies\CookieJar;
+use Weijiajia\Cookies\HasCookie;
+use Weijiajia\Cookies\SetCookie;
 use Saloon\Enums\Method;
 use Saloon\Http\Connector;
 use Saloon\Http\Faking\MockClient;

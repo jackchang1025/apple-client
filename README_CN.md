@@ -40,12 +40,7 @@ composer require weijiajia/apple-client
 
 ```php
 
-use Apple\Client\AppleFactory;
-use Apple\Client\AppleClient;
-use Apple\Client\Cookies\Cookies;
-use Apple\Client\Header\CacheStore;
-use Psr\SimpleCache\CacheInterface;
-use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerInterface;use Psr\SimpleCache\CacheInterface;use Weijiajia\AppleClient;use Weijiajia\AppleClientFactory;use Weijiajia\Cookies\Cookies;use Weijiajia\Store\CacheStore;
 
 
 $config =  Config::fromArray([
@@ -75,7 +70,7 @@ $logger = new LoggerInterface();
 $client = new AppleClient(config: $config, headerRepositories: $headerRepositories,cookieJar: $cookie,logger: $logger);
 
 //或者你可以使用 AppleFactory 创建实例:
-$factory = new AppleFactory(cache: $cache, logger: $logger);
+$factory = new AppleClientFactory(cache: $cache, logger: $logger);
 $client = $factory->create('your_client_id', [
     'apple_auth' => [
     'url' => 'https://your_apple_auth_url',

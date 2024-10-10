@@ -5,7 +5,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Cookies;
+namespace Weijiajia\Cookies;
 
 use InvalidArgumentException;
 use Psr\SimpleCache\CacheInterface;

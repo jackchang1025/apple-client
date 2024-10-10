@@ -5,9 +5,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Apple\Client\Integrations\AppleAuth\Request;
+namespace Weijiajia\Integrations\AppleAuth\Request;
 
-use Apple\Client\Integrations\Request;
+use Weijiajia\Integrations\Request;
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Traits\Body\HasJsonBody;
@@ -15,6 +15,8 @@ use Saloon\Traits\Body\HasJsonBody;
 class Complete extends Request implements HasBody
 {
     use HasJsonBody;
+
+    protected bool $proxyEnabled = false;
 
     protected Method $method = Method::POST;
 

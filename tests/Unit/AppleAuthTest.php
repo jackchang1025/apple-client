@@ -5,12 +5,12 @@
  * file that was distributed with this source code.
  */
 
-use Apple\Client\AppleAuth;
-use Apple\Client\AppleClient;
-use Apple\Client\Config\Config;
-use Apple\Client\Integrations\AppleAuth\AppleAuthConnector;
-use Apple\Client\Integrations\AppleAuth\Request\Complete;
-use Apple\Client\Integrations\AppleAuth\Request\Init;
+use Weijiajia\AppleAuth;
+use Weijiajia\AppleClient;
+use Weijiajia\Config\Config;
+use Weijiajia\Integrations\AppleAuth\AppleAuthConnector;
+use Weijiajia\Integrations\AppleAuth\Request\Complete;
+use Weijiajia\Integrations\AppleAuth\Request\Init;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 use Saloon\Http\Response;
