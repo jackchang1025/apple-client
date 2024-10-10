@@ -40,7 +40,12 @@ composer require weijiajia/apple-client
 
 ```php
 
-use Psr\Log\LoggerInterface;use Psr\SimpleCache\CacheInterface;use Weijiajia\AppleClient;use Weijiajia\AppleClientFactory;use Weijiajia\Cookies\Cookies;use Weijiajia\Store\CacheStore;
+use Psr\Log\LoggerInterface;
+use Psr\SimpleCache\CacheInterface;
+use Weijiajia\AppleClient;
+use Weijiajia\AppleClientFactory;
+use Weijiajia\Cookies\Cookies;
+use Weijiajia\Store\CacheStore;
 
 
 $config =  Config::fromArray([
