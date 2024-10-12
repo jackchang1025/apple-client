@@ -2,7 +2,9 @@
 
 namespace Weijiajia\Exception;
 
-class AppleClientException extends \Exception
+use Saloon\Exceptions\Request\RequestException;
+
+class AppleClientException extends RequestException
 {
 
 }

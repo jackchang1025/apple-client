@@ -7,7 +7,6 @@
 
 namespace Weijiajia;
 
-use Weijiajia\Exception\AccountLockoutException;
 use Weijiajia\Exception\BindPhoneException;
 use Weijiajia\Exception\ErrorException;
 use Weijiajia\Exception\PhoneException;
@@ -71,15 +70,15 @@ trait AppleId
      * @param string $countryDialCode
      * @param bool   $nonFTEU
      *
+     * @return Response
      * @throws RequestException
-     * @throws AccountLockoutException
      * @throws PhoneException
      * @throws VerificationCodeSentTooManyTimesException
      * @throws ErrorException
      * @throws PhoneNumberAlreadyExistsException
-     * @throws BindPhoneException|JsonException
+     * @throws StolenDeviceProtectionException
+     * @throws BindPhoneException|JsonException|FatalRequestException
      *
-     * @return Response
      */
     public function securityVerifyPhone(
         string $countryCode,
@@ -106,14 +105,12 @@ trait AppleId
 
             $error = $response->getFirstServiceError();
 
-            // 骏证码无法发送至该电话号码。请稍后重试
             if ($error?->getCode() === -28248) {
                 throw new PhoneException(
                     response: $response
                 );
             }
 
-            //发送验证码的次数过多。输入你最后收到的验证码，或稍后再试。
             if ($error?->getCode() === -22979) {
                 throw new VerificationCodeSentTooManyTimesException(
                     response: $response

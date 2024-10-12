@@ -164,7 +164,7 @@ trait Idmsa
             $response = $e->getResponse();
 
             if ($response->status() === 400) {
-                throw new VerificationCodeException($response->getFirstServiceError()?->getMessage() ?? '验证码错误', $response->status());
+                throw new VerificationCodeException($response,$response->getFirstServiceError()?->getMessage() ?? '验证码错误', $response->status());
             }
 
             if ($response->status() === 412) {
@@ -209,7 +209,7 @@ trait Idmsa
             $response = $e->getResponse();
 
             if ($response->status() === 400) {
-                throw new VerificationCodeException($response->getFirstServiceError()?->getMessage() ?? '验证码错误', $response->status());
+                throw new VerificationCodeException($response,$response->getFirstServiceError()?->getMessage() ?? '验证码错误', $response->status());
             }
 
             if ($response->status() === 412) {
